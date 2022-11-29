@@ -23,14 +23,6 @@ IPAddress server_addr(85, 10, 205, 173);  // IP of the MySQL *server* here
 char user[] = "iot_tiburi";              // MySQL user login username
 char password[] = "iot_tiburi";          // MySQL user login password
 
-char INSERT_SQL[] = "INSERT INTO bcitest.Noteiro (DEVICE_ID, CASH) VALUES ('%d', '%d')";
-char query[128];
-
-//WiFiClient client;
-EthernetClient client;
-MySQL_Connection conn((Client *)&client);
-
-
 WiFiMulti wifiMulti;
 
 void setup(){
@@ -57,7 +49,7 @@ void setup(){
    
 void loop(){
 
-float temperature = 9;
+int temperature = 98;
 
   //if(isnan(temperature) || isnan(humidity)){
   //  Serial.println("Failed to read DHT11");
@@ -82,20 +74,21 @@ float temperature = 9;
 
 
 // This will send the request to the server
- client.print(String("GET /index.php?temperature=") + 
-                          ("&temperature") + temperature +
+ client.print(String("HTTP.GET /index.php?") + 
+                          ("$temp=") + temperature +
                            " HTTP/1.1\r\n" +
                  "Host: " + host + "\r\n" +
                  "Connection: close\r\n\r\n");
-    unsigned long timeout = millis();
+
+   unsigned long timeout = millis();
     while (client.available() == 0) {
         if (millis() - timeout > 1000) {
             Serial.println(">>> Client Timeout !");
             client.stop();
             return;
-        
         }
-    
+    }
+
     // Read all the lines of the reply from server and print them to Serial
     while(client.available()) {
         String line = client.readStringUntil('\r');
@@ -105,6 +98,4 @@ float temperature = 9;
 
     Serial.println();
     Serial.println("closing connection");
-    }
 }
-
