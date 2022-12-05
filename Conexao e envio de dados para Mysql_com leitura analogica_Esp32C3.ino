@@ -23,11 +23,6 @@ int sensorValue = 0;  // variable to store the value coming from the sensor
 
 byte mac_addr[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-// DECLARAÇÃO DE VARIÁVEIS PARA MySQL
-IPAddress server_addr(85, 10, 205, 173);  // IP of the MySQL *server* here
-char user[] = "iot_tiburi";              // MySQL user login username
-char password[] = "iot_tiburi";          // MySQL user login password
-
 WiFiMulti wifiMulti;
 
 void setup(){
